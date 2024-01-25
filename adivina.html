@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+    <title>Adivina el Número</title>
+</head>
+
+<body>
+    <div class="container-fluid  ">
+    <nav class="navbar navbar-expand-lg ">
+        <div class="container-fluid ">
+            <img src="Secret_Number_Logo_Black.png" id="logo" style="width: 100px;">
+        <ul class="nav nav-underline">
+            <li class="item" id="item">
+            <a class="nav-link" href="index.html">Numero Secreto</a>
+            </li>
+        </div>
+    </nav>
+
+    <h1 class="text-center">Adivina el Número</h1>
+    <p class="text-center">Ingresa un número entre 1 y 100:</p>
+
+    <div class="row">
+        <div class="col-5">
+
+        </div>
+        <div class="col-2">
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="inputGroup-sizing-default">Numero:</span>
+                <input type="number" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default"  id="guessInput" onkeypress="handleKeyPress(event)">
+                <button class="btn btn-primary" onclick="adivinarNumero() ">Adivinar</button>
+                <p id="resultado"></p>
+                <p>Opciones ingresadas:</p>
+                <ul id="opciones"></ul>
+            </div>
+        </div>       
+        <div class="col-5">
+
+        </div>
+
+</div>
+
+    <script>
+        let numeroOculto = Math.floor(Math.random() * 100) + 1;
+        let opcionesIngresadas = [];
+
+        function adivinarNumero() {
+            const guessInput = document.getElementById("guessInput");
+            const resultado = document.getElementById("resultado");
+            const opcionesList = document.getElementById("opciones");
+
+            const guess = parseInt(guessInput.value);
+
+            if (isNaN(guess) || guess < 1 || guess > 100) {
+                resultado.textContent = "Ingresa un número válido entre 1 y 100.";
+                return;
+            }
+
+            opcionesIngresadas.push(guess);
+
+            if (guess === numeroOculto) {
+                resultado.textContent = `¡Felicidades! Adivinaste el número ${numeroOculto} en ${opcionesIngresadas.length} intentos.`;
+            } else {
+                resultado.textContent = `Incorrecto. Intenta de nuevo.`;
+            }
+
+            // Actualiza la lista de opciones ingresadas
+            opcionesList.innerHTML = "";
+            opcionesIngresadas.forEach(opcion => {
+                const li = document.createElement("li");
+                li.textContent = opcion;
+                opcionesList.appendChild(li);
+            });
+
+            // Restablece el valor del campo de entrada
+            guessInput.value = "";
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === "Enter") {
+                adivinarNumero();
+            }
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+</body>
+
+</html>
